@@ -1,7 +1,4 @@
-# Yet another fullstack web application
-
-Frontend: React, Redux\
-Backend: Actix-web, MongoDB
+# Yet another web application based on actix-web and mongodb
 
 # APIs
 ## Host: localhost:3000

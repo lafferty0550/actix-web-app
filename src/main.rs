@@ -4,6 +4,7 @@ use actix_web::{
     App,
     HttpServer,
 };
+use actix_cors::Cors;
 use mongodb::{
     Client,
     Database,
@@ -57,7 +58,6 @@ pub struct AppState {
 
 impl AppState {
     pub fn new(services: Arc<Services>) -> Self {
-        println!("AppState::new() called");
         Self {
             services,
         }
@@ -69,8 +69,9 @@ async fn init_services() -> MongoResult<Arc<Services>> {
     println!("Connected to DB successfuly!");
     let db: Database = client.database("fullstack-demo-shop");
     let categories: Arc<Collection> = Arc::new(db.collection("categories"));
+    let images: Arc<Collection> = Arc::new(db.collection("images"));
 
-    Ok(Arc::new(Services::new(categories)))
+    Ok(Arc::new(Services::new(categories, images)))
 }
 
 #[actix_rt::main]
@@ -83,6 +84,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .data(AppState::new(services_ptr.clone()))
+            .wrap(Cors::new().supports_credentials().finish())
             .wrap(middleware::NormalizePath)
             .service(web::scope("/categories").configure(routes::categories::init))
     })

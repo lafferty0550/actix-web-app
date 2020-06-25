@@ -6,13 +6,17 @@ edition = "2018"
 
 [[bin]]
 name = "back"
-path = "src/back/main.rs"
+path = "src/main.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 actix-web = "2"
 actix-rt = "1"
+actix-cors = "0.2"
+actix-multipart = "0.2"
+async-std = "1.6"
 mongodb = "1"
 serde = "1"
 futures = "0.3"
+chrono = "0.4"
